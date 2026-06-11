@@ -11,51 +11,26 @@ searchBtn.addEventListener("click", async () => {
 
     resultsDiv.innerHTML = "<p>Searching...</p>";
 
-    // Replace later with n8n webhook
-    /*
-    const response = await fetch("YOUR_N8N_WEBHOOK_URL", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            age,
-            county,
-            income,
-            disability,
-            veteran
-        })
-    });
+    const response = await fetch(
+        "https://mbaghdadi6g.app.n8n.cloud/webhook/benefits-search",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                age,
+                county,
+                income,
+                disability,
+                veteran
+            })
+        }
+    );
 
     const data = await response.json();
+
     renderResults(data.programs);
-    */
-
-    const mockPrograms = [
-        {
-            name: "Medicare Savings Program",
-            category: "Healthcare",
-            explanation:
-                "May help pay Medicare premiums and other healthcare costs.",
-            url: "#"
-        },
-        {
-            name: "Meals on Wheels",
-            category: "Nutrition",
-            explanation:
-                "Provides home-delivered meals to eligible older adults.",
-            url: "#"
-        },
-        {
-            name: "Senior Transportation Services",
-            category: "Transportation",
-            explanation:
-                "Transportation assistance for medical appointments and errands.",
-            url: "#"
-        }
-    ];
-
-    renderResults(mockPrograms);
 });
 
 function renderResults(programs) {
