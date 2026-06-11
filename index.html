@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benefits Navigator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>Benefits Navigator</h1>
+            <p>Find programs and supports available to older adults.</p>
+        </header>
+
+        <div class="form-card">
+
+            <div class="form-group">
+                <label>Age</label>
+                <input type="number" id="age" min="50" placeholder="Enter age">
+            </div>
+
+            <div class="form-group">
+                <label>County</label>
+                <select id="county">
+                    <option value="">Select County</option>
+                    <option>Cobb</option>
+                    <option>Fulton</option>
+                    <option>DeKalb</option>
+                    <option>Gwinnett</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Income Range</label>
+                <select id="income">
+                    <option value="">Select Income</option>
+                    <option>Less than $25,000</option>
+                    <option>$25,000 - $50,000</option>
+                    <option>$50,000 - $75,000</option>
+                    <option>Over $75,000</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Disability (Optional)</label>
+                <select id="disability">
+                    <option value="">None Selected</option>
+                    <option>Mobility</option>
+                    <option>Vision</option>
+                    <option>Hearing</option>
+                    <option>Cognitive</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Veteran Status</label>
+                <select id="veteran">
+                    <option>No</option>
+                    <option>Yes</option>
+                </select>
+            </div>
+
+            <button id="searchBtn">
+                Find Benefits
+            </button>
+
+        </div>
+
+        <div id="results"></div>
+
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
