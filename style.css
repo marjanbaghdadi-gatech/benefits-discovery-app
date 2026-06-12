@@ -132,3 +132,33 @@ footer {
     font-size: 13px;
     color: #888;
 }
+
+@media (max-width: 600px) {
+
+    .container {
+        margin: 20px auto;
+        padding: 12px;
+    }
+
+    header h1 {
+        font-size: 2.2rem;
+    }
+
+    .form-card {
+        padding: 16px;
+    }
+
+    input,
+    select {
+        font-size: 16px; /* prevents iOS zoom on focus */
+    }
+
+    button {
+        font-size: 17px;
+        padding: 14px;
+    }
+
+    .result-card {
+        padding: 14px;
+    }
+}
