@@ -4,7 +4,7 @@ const resultsDiv = document.getElementById("results");
 searchBtn.addEventListener("click", async () => {
 
     const age = document.getElementById("age").value;
-    const county = document.getElementById("county").value;
+    // const county = document.getElementById("county").value;
     const income = document.getElementById("income").value;
     const disability = document.getElementById("disability").value;
     const veteran = document.getElementById("veteran").value;
@@ -21,7 +21,7 @@ searchBtn.addEventListener("click", async () => {
             },
             body: JSON.stringify({
                 age:             age,
-                county:          county,
+                // county:          county,
                 monthly_income:  income,
                 disability_tags: disability ? disability.split(",").map(d => d.trim()) : [],
                 is_veteran:      veteran,
