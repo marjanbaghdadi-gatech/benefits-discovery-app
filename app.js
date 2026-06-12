@@ -74,6 +74,17 @@ function createCard(program) {
             ${program.description || ""}
         </p>
 
+        ${
+            program.match_reasons && program.match_reasons.length
+            ? `<div class="match-reasons">
+                <strong>Why this matches you:</strong>
+                <ul>
+                    ${program.match_reasons.map(r => `<li>${r}</li>`).join('')}
+                </ul>
+               </div>`
+            : ''
+        }
+
         <p>
             <strong>Agency:</strong>
             ${program.administering_agency || ""}
