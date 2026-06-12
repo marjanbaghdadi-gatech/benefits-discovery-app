@@ -30,6 +30,8 @@ searchBtn.addEventListener("click", async () => {
 
     const data = await response.json();
 
+    console.log("Response from n8n:", data);
+
     renderResults(data.programs);
 });
 
@@ -37,16 +39,44 @@ function renderResults(programs) {
 
     resultsDiv.innerHTML = "";
 
+    if (!programs || programs.length === 0) {
+        resultsDiv.innerHTML = "<p>No matching programs found.</p>";
+        return;
+    }
+
     programs.forEach(program => {
 
         const card = document.createElement("div");
         card.className = "result-card";
 
         card.innerHTML = `
-            <div class="badge">${program.category}</div>
-            <h3>${program.name}</h3>
-            <p>${program.explanation}</p>
-            <a class="apply-link" href="${program.url}" target="_blank">
+            <div class="badge">
+                ${program.category || ""}
+            </div>
+
+            <h3>
+                ${program.program_name || ""}
+            </h3>
+
+            <p>
+                ${program.description || ""}
+            </p>
+
+            <p>
+                <strong>Agency:</strong>
+                ${program.administering_agency || ""}
+            </p>
+
+            <p>
+                <strong>Confidence:</strong>
+                ${program.confidence || ""}
+            </p>
+
+            <a
+                class="apply-link"
+                href="${program.apply_url || "#"}"
+                target="_blank"
+            >
                 Learn More →
             </a>
         `;
