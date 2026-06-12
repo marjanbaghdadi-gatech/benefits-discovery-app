@@ -8,6 +8,7 @@ searchBtn.addEventListener("click", async () => {
     const income = document.getElementById("income").value;
     const disability = document.getElementById("disability").value;
     const veteran = document.getElementById("veteran").value;
+    const needHelpWith = document.getElementById("needHelpWith").value;
 
     resultsDiv.innerHTML = "<p>Searching...</p>";
 
@@ -19,11 +20,12 @@ searchBtn.addEventListener("click", async () => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                age,
-                county,
-                income,
-                disability,
-                veteran
+                age:             age,
+                county:          county,
+                monthly_income:  income,
+                disability_tags: disability ? disability.split(",").map(d => d.trim()) : [],
+                is_veteran:      veteran,
+                need_tags:       needHelpWith ? needHelpWith.split(",").map(n => n.trim()) : []
             })
         }
     );
