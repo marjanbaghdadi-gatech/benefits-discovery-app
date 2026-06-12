@@ -30,10 +30,12 @@ searchBtn.addEventListener("click", async () => {
 
     const data = await response.json();
 
-    console.log("Response from n8n:", data);
-
     renderResults(data.programs);
 });
+
+const PAGE_SIZE = 5;
+let allPrograms = [];
+let currentPage = 0;
 
 function renderResults(programs) {
 
@@ -44,43 +46,73 @@ function renderResults(programs) {
         return;
     }
 
-    programs.forEach(program => {
+    allPrograms = programs;
+    currentPage = 0;
 
-        const card = document.createElement("div");
-        card.className = "result-card";
+    resultsDiv.innerHTML = `<h2>${programs.length} programs found</h2>`;
 
-        card.innerHTML = `
-            <div class="badge">
-                ${program.category || ""}
-            </div>
+    showNextPage();
+}
 
-            <h3>
-                ${program.program_name || ""}
-            </h3>
+function createCard(program) {
 
-            <p>
-                ${program.description || ""}
-            </p>
+    const card = document.createElement("div");
+    card.className = "result-card";
 
-            <p>
-                <strong>Agency:</strong>
-                ${program.administering_agency || ""}
-            </p>
+    card.innerHTML = `
+        <div class="badge">
+            ${program.category || ""}
+        </div>
 
-            <p>
-                <strong>Confidence:</strong>
-                ${program.confidence || ""}
-            </p>
+        <h3>
+            ${program.program_name || ""}
+        </h3>
 
-            <a
-                class="apply-link"
-                href="${program.apply_url || "#"}"
-                target="_blank"
-            >
+        <p>
+            ${program.description || ""}
+        </p>
+
+        <p>
+            <strong>Agency:</strong>
+            ${program.administering_agency || ""}
+        </p>
+
+        <p>
+            <strong>Confidence:</strong>
+            ${program.confidence || ""}
+        </p>
+
+        ${
+            program.apply_url
+            ? `<a class="apply-link" href="${program.apply_url}" target="_blank"
+                rel="noopener noreferrer">
                 Learn More →
-            </a>
-        `;
+               </a>`
+            : `<p>Contact local AAA</p>`
+        }
+    `;
 
-        resultsDiv.appendChild(card);
-    });
+    return card;
+}
+
+function showNextPage() {
+
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
+    if (loadMoreBtn) loadMoreBtn.remove();
+
+    const start = currentPage * PAGE_SIZE;
+    const slice = allPrograms.slice(start, start + PAGE_SIZE);
+
+    slice.forEach(program => resultsDiv.appendChild(createCard(program)));
+
+    currentPage++;
+
+    const shown = currentPage * PAGE_SIZE;
+    if (shown < allPrograms.length) {
+        const btn = document.createElement("button");
+        btn.id = "loadMoreBtn";
+        btn.textContent = "Load More Benefits";
+        btn.addEventListener("click", showNextPage);
+        resultsDiv.appendChild(btn);
+    }
 }

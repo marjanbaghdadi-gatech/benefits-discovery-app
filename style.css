@@ -22,8 +22,12 @@ header {
 }
 
 header h1 {
-    color: #006241;
     margin-bottom: 10px;
+    font-size: 4rem;
+    background: linear-gradient(90deg, #0d1b4b, #5dade2, #0d1b4b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .form-card {
@@ -55,25 +59,27 @@ select {
 button {
     width: 100%;
     padding: 14px;
-    background: #006241;
+    background: linear-gradient(90deg, #0d1b4b, #5dade2, #0d1b4b);
     color: white;
     border: none;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold;
     cursor: pointer;
 }
 
 button:hover {
-    background: #004f34;
+    background: linear-gradient(90deg, #0a1538, #2e86c1, #0a1538);
 }
 
 .result-card {
     background: white;
-    border-left: 6px solid #006241;
+    border-left: 6px solid #0d1b4b;
     padding: 20px;
     margin-bottom: 15px;
     border-radius: 10px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    line-height: 1.7;
 }
 
 .result-card h3 {
@@ -84,11 +90,28 @@ button:hover {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 20px;
-    background: #e7f7ef;
-    color: #006241;
+    background: #e8f0fb;
+    color: #0d1b4b;
     margin-bottom: 10px;
     font-size: 13px;
     font-weight: bold;
+}
+
+#loadMoreBtn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    background: white;
+    color: #0d1b4b;
+    border: 2px solid #0d1b4b;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#loadMoreBtn:hover {
+    background: #e8f0fb;
 }
 
 .apply-link {
@@ -100,4 +123,12 @@ button:hover {
 
 .apply-link:hover {
     text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    font-size: 13px;
+    color: #888;
 }
