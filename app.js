@@ -3,12 +3,10 @@ const resultsDiv = document.getElementById("results");
 
 searchBtn.addEventListener("click", async () => {
 
-    const age = document.getElementById("age").value;
-    // const county = document.getElementById("county").value;
-    const income = document.getElementById("income").value;
+    const age      = document.getElementById("age").value;
+    const income   = document.getElementById("income").value;
     const disability = document.getElementById("disability").value;
-    const veteran = document.getElementById("veteran").value;
-    // const needHelpWith = document.getElementById("needHelpWith").value;
+    const veteran  = document.getElementById("veteran").value;
 
     resultsDiv.innerHTML = "<p>Searching...</p>";
 
@@ -16,22 +14,19 @@ searchBtn.addEventListener("click", async () => {
         "https://mbaghdadi6g.app.n8n.cloud/webhook/benefits-search",
         {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 age:             age,
-                // county:          county,
                 monthly_income:  income,
-                disability_tags: disability ? disability.split(",").map(d => d.trim()) : [],
+                disability_tags: disability
+                    ? disability.split(",").map(d => d.trim()).filter(Boolean)
+                    : [],
                 is_veteran:      veteran,
-                // need_tags:       needHelpWith ? needHelpWith.split(",").map(n => n.trim()) : []
             })
         }
     );
 
     const data = await response.json();
-
     renderResults(data.programs);
 });
 
@@ -40,7 +35,6 @@ let allPrograms = [];
 let currentPage = 0;
 
 function renderResults(programs) {
-
     resultsDiv.innerHTML = "";
 
     if (!programs || programs.length === 0) {
@@ -51,23 +45,34 @@ function renderResults(programs) {
     allPrograms = programs;
     currentPage = 0;
 
-    resultsDiv.innerHTML = `<h2>${programs.length} programs found</h2>`;
+    const consumerCount = programs.filter(p =>
+        String(p.consumer_facing || 'yes').toLowerCase() !== 'no'
+    ).length;
+    const referralCount = programs.length - consumerCount;
 
+    let headerHtml = `<h2>${consumerCount} program${consumerCount !== 1 ? 's' : ''} found</h2>`;
+    if (referralCount > 0) {
+        headerHtml += `<p class="referral-note">
+            + ${referralCount} additional program${referralCount !== 1 ? 's' : ''}
+            shown for awareness only — accessible through referral, not self-application.
+        </p>`;
+    }
+
+    resultsDiv.innerHTML = headerHtml;
     showNextPage();
 }
 
 function createCard(program) {
-
     const card = document.createElement("div");
-    const isReferralOnly = program.consumer_facing === 'No' ||
-                           program.consumer_facing === 'no';
+    const isReferralOnly = String(program.consumer_facing || '').toLowerCase() === 'no';
 
     card.className = isReferralOnly ? "result-card referral-card" : "result-card";
 
     card.innerHTML = `
+
         ${isReferralOnly ? `
             <div class="referral-banner">
-                📋 Referral-Only Program — For Awareness
+                📋 For Awareness Only — Referral Required
             </div>
         ` : ''}
 
@@ -81,11 +86,15 @@ function createCard(program) {
 
         <p><strong>Agency:</strong> ${program.administering_agency || ""}</p>
 
+        <p><strong>Confidence:</strong> ${program.confidence || ""}</p>
+
         ${
             program.match_reasons && program.match_reasons.length
             ? `<div class="match-reasons">
-                <strong>Why this is shown:</strong>
-                <ul>${program.match_reasons.map(r => `<li>${r}</li>`).join('')}</ul>
+                <strong>${isReferralOnly ? 'Why this is shown:' : 'Why this matches you:'}</strong>
+                <ul>
+                    ${program.match_reasons.map(r => `<li>${r}</li>`).join('')}
+                </ul>
                </div>`
             : ''
         }
@@ -93,15 +102,20 @@ function createCard(program) {
         ${
             program.match_warnings && program.match_warnings.length
             ? `<div class="match-warnings">
-                <ul>${program.match_warnings.map(w => `<li>${w}</li>`).join('')}</ul>
+                <strong>⚠️ Requirements to check:</strong>
+                <ul>
+                    ${program.match_warnings.map(w => `<li>${w}</li>`).join('')}
+                </ul>
                </div>`
             : ''
         }
 
         ${
             program.apply_url
-            ? `<a class="apply-link" href="${program.apply_url}"
-                    target="_blank" rel="noopener noreferrer">
+            ? `<a class="apply-link ${isReferralOnly ? 'referral-link' : ''}"
+                    href="${program.apply_url}"
+                    target="_blank"
+                    rel="noopener noreferrer">
                     Learn More →
                </a>`
             : program.phone
@@ -114,7 +128,6 @@ function createCard(program) {
 }
 
 function showNextPage() {
-
     const loadMoreBtn = document.getElementById("loadMoreBtn");
     if (loadMoreBtn) loadMoreBtn.remove();
 
