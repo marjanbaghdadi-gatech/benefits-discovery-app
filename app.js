@@ -8,7 +8,7 @@ searchBtn.addEventListener("click", async () => {
     const income = document.getElementById("income").value;
     const disability = document.getElementById("disability").value;
     const veteran = document.getElementById("veteran").value;
-    const needHelpWith = document.getElementById("needHelpWith").value;
+    // const needHelpWith = document.getElementById("needHelpWith").value;
 
     resultsDiv.innerHTML = "<p>Searching...</p>";
 
@@ -25,7 +25,7 @@ searchBtn.addEventListener("click", async () => {
                 monthly_income:  income,
                 disability_tags: disability ? disability.split(",").map(d => d.trim()) : [],
                 is_veteran:      veteran,
-                need_tags:       needHelpWith ? needHelpWith.split(",").map(n => n.trim()) : []
+                // need_tags:       needHelpWith ? needHelpWith.split(",").map(n => n.trim()) : []
             })
         }
     );
@@ -59,48 +59,53 @@ function renderResults(programs) {
 function createCard(program) {
 
     const card = document.createElement("div");
-    card.className = "result-card";
+    const isReferralOnly = program.consumer_facing === 'No' ||
+                           program.consumer_facing === 'no';
+
+    card.className = isReferralOnly ? "result-card referral-card" : "result-card";
 
     card.innerHTML = `
+        ${isReferralOnly ? `
+            <div class="referral-banner">
+                📋 Referral-Only Program — For Awareness
+            </div>
+        ` : ''}
+
         <div class="badge">
             ${program.category || ""}
         </div>
 
-        <h3>
-            ${program.program_name || ""}
-        </h3>
+        <h3>${program.program_name || ""}</h3>
 
-        <p>
-            ${program.description || ""}
-        </p>
+        <p>${program.plain_language_summary || program.description || ""}</p>
+
+        <p><strong>Agency:</strong> ${program.administering_agency || ""}</p>
 
         ${
             program.match_reasons && program.match_reasons.length
             ? `<div class="match-reasons">
-                <strong>Why this matches you:</strong>
-                <ul>
-                    ${program.match_reasons.map(r => `<li>${r}</li>`).join('')}
-                </ul>
+                <strong>Why this is shown:</strong>
+                <ul>${program.match_reasons.map(r => `<li>${r}</li>`).join('')}</ul>
                </div>`
             : ''
         }
 
-        <p>
-            <strong>Agency:</strong>
-            ${program.administering_agency || ""}
-        </p>
-
-        <p>
-            <strong>Confidence:</strong>
-            ${program.confidence || ""}
-        </p>
+        ${
+            program.match_warnings && program.match_warnings.length
+            ? `<div class="match-warnings">
+                <ul>${program.match_warnings.map(w => `<li>${w}</li>`).join('')}</ul>
+               </div>`
+            : ''
+        }
 
         ${
             program.apply_url
-            ? `<a class="apply-link" href="${program.apply_url}" target="_blank"
-                rel="noopener noreferrer">
-                Learn More →
+            ? `<a class="apply-link" href="${program.apply_url}"
+                    target="_blank" rel="noopener noreferrer">
+                    Learn More →
                </a>`
+            : program.phone
+            ? `<p><strong>Phone:</strong> ${program.phone}</p>`
             : `<p>Contact local AAA</p>`
         }
     `;
