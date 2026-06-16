@@ -72,6 +72,16 @@ button:hover {
     background: linear-gradient(90deg, #0a1538, #2e86c1, #0a1538);
 }
 
+.required-star {
+    color: #c0392b;
+}
+
+p.error {
+    color: #c0392b;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
 .result-card {
     background: white;
     border-left: 6px solid #0d1b4b;

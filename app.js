@@ -8,6 +8,15 @@ searchBtn.addEventListener("click", async () => {
     const disability = document.getElementById("disability").value;
     const veteran  = document.getElementById("veteran").value;
 
+    if (!age) {
+        resultsDiv.innerHTML = "<p class='error'>Please enter your age.</p>";
+        return;
+    }
+    if (!veteran) {
+        resultsDiv.innerHTML = "<p class='error'>Please select your veteran status.</p>";
+        return;
+    }
+
     resultsDiv.innerHTML = "<p>Searching...</p>";
 
     const response = await fetch(
