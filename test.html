@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Style Test</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+
+        body { background: #f0f2f5; color: #333; padding: 30px 20px; }
+
+        h1 { text-align: center; margin-bottom: 6px; font-size: 1.5rem; }
+        .subtitle { text-align: center; color: #666; font-size: 0.9em; margin-bottom: 30px; }
+
+        .section { margin-bottom: 40px; }
+        .section-title { font-size: 1.1rem; font-weight: bold; margin-bottom: 14px; color: #0d1b4b; border-bottom: 2px solid #0d1b4b; padding-bottom: 6px; }
+
+        .style-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .style-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .style-label {
+            font-size: 0.75em;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 14px;
+        }
+
+        label.field-label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.95em; }
+        label.field-label .req { color: #c0392b; }
+        label.field-label .opt { color: #888; font-weight: normal; font-size: 0.85em; }
+
+        select.field-select {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.95em;
+            background: white;
+        }
+        select.field-select.mandatory { border-color: #0d1b4b; }
+
+        .toggle-group { display: flex; gap: 10px; }
+        .toggle-btn {
+            flex: 1;
+            padding: 11px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.95em;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s;
+        }
+        .toggle-btn:hover { border-color: #0d1b4b; color: #0d1b4b; }
+        .toggle-btn.active { background: #0d1b4b; color: white; border-color: #0d1b4b; }
+
+        .radio-group { display: flex; flex-direction: column; gap: 10px; }
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+        .radio-option:hover { border-color: #0d1b4b; }
+        .radio-option input[type="radio"] { accent-color: #0d1b4b; width: 18px; height: 18px; }
+        .radio-option.selected { border-color: #0d1b4b; background: #f0f4ff; }
+
+        .pill-group { display: flex; border: 2px solid #0d1b4b; border-radius: 30px; overflow: hidden; }
+        .pill-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: white;
+            font-size: 0.95em;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s;
+        }
+        .pill-btn:hover { background: #e8f0fb; }
+        .pill-btn.active { background: #0d1b4b; color: white; }
+
+        input[type="range"] { width: 100%; accent-color: #0d1b4b; }
+        .range-labels { display: flex; justify-content: space-between; font-size: 0.78em; color: #888; margin-top: 4px; }
+        .range-value { text-align: center; font-weight: bold; color: #0d1b4b; margin-top: 8px; font-size: 0.95em; }
+
+        .field-note { font-size: 0.8em; color: #888; margin-bottom: 8px; }
+
+        .vote-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+            font-size: 0.85em;
+            color: #555;
+        }
+        .vote-btn {
+            padding: 6px 18px;
+            border: 1px solid #0d1b4b;
+            border-radius: 20px;
+            background: white;
+            color: #0d1b4b;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.15s;
+        }
+        .vote-btn:hover, .vote-btn.voted { background: #0d1b4b; color: white; }
+
+        @media (max-width: 600px) {
+            .style-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<h1>A/B Test</h1>
+<p class="subtitle">Select your preferred style for a disability field in an online platform designed for individuals with disability and/or aging adults.</p>
+
+
+
+<!-- DISABILITY -->
+<div class="section">
+    <div class="section-title">Disability Field</div>
+    <div class="style-grid">
+
+        <div class="style-card">
+            <div class="style-label">Style A — Dropdown · Mandatory</div>
+            <label class="field-label" for="dis_a">
+                Do you have a disability? <span class="req">*</span>
+            </label>
+            <p class="field-note">This helps us find the best matching programs for your needs.</p>
+            <select id="dis_a" class="field-select mandatory" onchange="toggleDisType(this.value)">
+                <option value="">Select an option</option>
+                <option value="no">No</option>
+                <option value="yes" selected>Yes</option>
+            </select>
+
+            <div id="dis_type_group" style="display:block; margin-top: 14px;">
+                <label class="field-label" for="dis_type">
+                    Type of Disability <span class="req">*</span>
+                </label>
+                <select id="dis_type" class="field-select mandatory">
+                    <option value="">Select type</option>
+                    <option value="mobility">Mobility / Physical</option>
+                    <option value="vision">Vision / Blindness</option>
+                    <option value="hearing">Hearing / Deaf</option>
+                    <option value="cognitive">Cognitive / Memory</option>
+                    <option value="mental_health">Mental Health</option>
+                    <option value="developmental">Developmental</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="style-card">
+            <div class="style-label">Style B — Dropdown · Optional</div>
+            <label class="field-label" for="dis_b">
+                Do you have any accessibility needs? <span class="opt">(optional)</span>
+            </label>
+            <select id="dis_b" class="field-select" onchange="toggleDisTypeB(this.value)">
+                <option value="">Select an option</option>
+                <option value="no">No</option>
+                <option value="yes" selected>Yes</option>
+            </select>
+
+            <div id="dis_type_group_b" style="display:block; margin-top: 14px;">
+                <label class="field-label" for="dis_type_b">
+                    Type of Accessibility Need <span class="opt">(optional)</span>
+                </label>
+                <select id="dis_type_b" class="field-select">
+                    <option value="">Select type</option>
+                    <option value="mobility">Mobility / Physical</option>
+                    <option value="vision">Vision / Blindness</option>
+                    <option value="hearing">Hearing / Deaf</option>
+                    <option value="cognitive">Cognitive / Memory</option>
+                    <option value="mental_health">Mental Health</option>
+                    <option value="developmental">Developmental</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<script src="test.js"></script>
+</body>
+</html>
