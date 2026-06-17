@@ -72,8 +72,20 @@ button:hover {
     background: linear-gradient(90deg, #0a1538, #2e86c1, #0a1538);
 }
 
-.required-star {
+.required {
     color: #c0392b;
+}
+
+.field-note {
+    font-size: 0.85em;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+.form-error {
+    color: #c0392b;
+    font-weight: bold;
+    margin-bottom: 12px;
 }
 
 p.error {
@@ -95,6 +107,12 @@ p.error {
 .result-card h3 {
     margin-bottom: 10px;
 }
+
+#results h2 {
+    margin-bottom: 6px;
+}
+
+
 
 /* ── Referral-only cards ── */
 .referral-card {
@@ -137,7 +155,7 @@ p.error {
 .referral-note {
     font-size: 0.88em;
     color: #888;
-    margin-top: -10px;
+    margin-top: 8px;
     margin-bottom: 16px;
 }
 

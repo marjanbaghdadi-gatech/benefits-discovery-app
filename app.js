@@ -1,37 +1,58 @@
-const searchBtn = document.getElementById("searchBtn");
-const resultsDiv = document.getElementById("results");
+const searchBtn    = document.getElementById("searchBtn");
+const resultsDiv   = document.getElementById("results");
+const hasDisField  = document.getElementById("has_disability");
+const formError    = document.getElementById("formError");
 
+
+
+// ── Search ───────────────────────────────────────────────────────────────────
 searchBtn.addEventListener("click", async () => {
 
-    const age      = document.getElementById("age").value;
-    const income   = document.getElementById("income").value;
-    const disability = document.getElementById("disability").value;
-    const veteran  = document.getElementById("veteran").value;
+    const age          = document.getElementById("age").value.trim();
+    // const county       = document.getElementById("county").value;
+    const incomeRaw    = document.getElementById("income").value;
+    const hasDisValue  = hasDisField.value;
+    const veteranValue = document.getElementById("veteran").value;
 
-    if (!age) {
-        resultsDiv.innerHTML = "<p class='error'>Please enter your age.</p>";
+    // ── Validation ──
+    let valid = true;
+
+    if (!age || Number(age) <= 0) valid = false;
+    if (!incomeRaw)               valid = false;
+
+    if (!valid) {
+        formError.style.display = "block";
         return;
     }
-    if (!veteran) {
-        resultsDiv.innerHTML = "<p class='error'>Please select your veteran status.</p>";
-        return;
-    }
 
+    formError.style.display = "none";
     resultsDiv.innerHTML = "<p>Searching...</p>";
+
+    // ── Parse income range ──
+    // incomeRaw is "floor|ceiling" e.g. "1000|2000" or "5000|null"
+    const incomeParts = incomeRaw.split("|");
+    const incomeMin   = Number(incomeParts[0]);
+    const incomeMax   = incomeParts[1] === "null" ? null : Number(incomeParts[1]);
+
+    // ── Parse disability ──
+    const disabilityTags = hasDisValue === "yes" ? ["yes"] : [];
+
+    // ── Build and send payload ──
+    const payload = {
+        age:             Number(age),
+        // county:          county,
+        income_min:      incomeMin,
+        income_max:      incomeMax,
+        disability_tags: disabilityTags,
+        is_veteran:      veteranValue,
+    };
 
     const response = await fetch(
         "https://mbaghdadi6g.app.n8n.cloud/webhook/benefits-search",
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                age:             age,
-                monthly_income:  income,
-                disability_tags: disability
-                    ? disability.split(",").map(d => d.trim()).filter(Boolean)
-                    : [],
-                is_veteran:      veteran,
-            })
+            body: JSON.stringify(payload)
         }
     );
 
@@ -39,9 +60,11 @@ searchBtn.addEventListener("click", async () => {
     renderResults(data.programs);
 });
 
+
+// ── Render ───────────────────────────────────────────────────────────────────
 const PAGE_SIZE = 5;
-let allPrograms = [];
-let currentPage = 0;
+let allPrograms  = [];
+let currentPage  = 0;
 
 function renderResults(programs) {
     resultsDiv.innerHTML = "";
@@ -78,16 +101,13 @@ function createCard(program) {
     card.className = isReferralOnly ? "result-card referral-card" : "result-card";
 
     card.innerHTML = `
-
         ${isReferralOnly ? `
             <div class="referral-banner">
                 📋 For Awareness Only — Referral Required
             </div>
         ` : ''}
 
-        <div class="badge">
-            ${program.category || ""}
-        </div>
+        <div class="badge">${program.category || ""}</div>
 
         <h3>${program.program_name || ""}</h3>
 
