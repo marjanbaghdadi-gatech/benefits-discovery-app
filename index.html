@@ -12,7 +12,10 @@
 
         <header>
             <h1>Georgia Benefits Navigator</h1>
-            <p>Find benefits and supports available to you.</p>
+            <br>
+            <p><strong>Find benefits and supports available to you.</strong></p>
+            <br>
+            <p>Information provided in the form will be used only to match you with programs you may qualify for.</p>
         </header>
 
         <div class="form-card">
@@ -23,9 +26,8 @@
             </div>
 
             <div class="form-group">
-                <label for="income">Monthly Household Income</label>
-                <p class="field-note">Used only to match you with programs you may qualify for.</p>
-                <select id="income">
+                <label for="income">Income</label>
+<select id="income">
                     <option value="">Select income range</option>
                     <option value="0|1000">Under $1,000 / month</option>
                     <option value="1000|2000">$1,000 – $2,000 / month</option>
@@ -41,26 +43,21 @@
                     <option value="">Select an option</option>
                     <option value="none">No disability</option>
                     <option value="prefer_not_to_say">Prefer not to say</option>
-                    <optgroup label="Physical &amp; Mobility">
-                        <option value="mobility">Mobility / Movement difficulty</option>
-                        <option value="chronic_pain">Chronic pain</option>
-                        <option value="fatigue">Fatigue / Low stamina</option>
+                    <optgroup label="Physical">
+                        <option value="mobility">Mobility impairment</option>
                     </optgroup>
                     <optgroup label="Sensory">
-                        <option value="vision">Vision / Low vision / Blindness</option>
+                        <option value="vision">Vision / Blindness</option>
                         <option value="hearing">Hearing / Deafness</option>
-                        <option value="speech">Speech / Communication</option>
                     </optgroup>
-                    <optgroup label="Cognitive &amp; Mental Health">
-                        <option value="cognitive">Memory / Cognitive impairment</option>
-                        <option value="mental_health">Mental health condition</option>
-                        <option value="learning">Learning disability</option>
+                    <optgroup label="Cognitive">
+                        <option value="cognitive">Cognitive impairment</option>
+                        <option value="dementia">Dementia / Memory loss</option>
                     </optgroup>
                     <optgroup label="Developmental">
-                        <option value="autism">Autism spectrum</option>
-                        <option value="intellectual">Intellectual disability</option>
-                        <option value="developmental">Other developmental disability</option>
+                        <option value="developmental">Developmental disability</option>
                     </optgroup>
+                    <option value="multiple">Multiple disabilities</option>
                 </select>
             </div>
 

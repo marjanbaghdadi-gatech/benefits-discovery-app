@@ -29,7 +29,7 @@ searchBtn.addEventListener("click", async () => {
     const incomeMax   = incomeParts[1] === "null" ? null : Number(incomeParts[1]);
 
     // ── Parse disability tags ──
-    const disabilityTags = disValue && disValue !== "none" && disValue !== "prefer_not_to_say"
+    const disabilityTags = (disValue && disValue !== "none" && disValue !== "prefer_not_to_say")
         ? [disValue]
         : [];
 
