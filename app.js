@@ -1,31 +1,25 @@
-const searchBtn    = document.getElementById("searchBtn");
-const resultsDiv   = document.getElementById("results");
-const hasDisField  = document.getElementById("has_disability");
-const formError    = document.getElementById("formError");
+const searchBtn  = document.getElementById("searchBtn");
+const resultsDiv = document.getElementById("results");
+const formCard   = document.querySelector(".form-card");
 
+// Expand bottom padding when disability dropdown opens so it has room to open downward
+const disabilitySelect = document.getElementById("disability");
+disabilitySelect.addEventListener("focus", () => {
+    formCard.style.paddingBottom = "320px";
+});
+disabilitySelect.addEventListener("blur", () => {
+    formCard.style.paddingBottom = "";
+});
 
 
 // ── Search ───────────────────────────────────────────────────────────────────
 searchBtn.addEventListener("click", async () => {
 
     const age          = document.getElementById("age").value.trim();
-    // const county       = document.getElementById("county").value;
     const incomeRaw    = document.getElementById("income").value;
-    const hasDisValue  = hasDisField.value;
-    const veteranValue = document.getElementById("veteran").value;
+    const veteranValue  = document.getElementById("veteran").value;
+    const disValue      = document.getElementById("disability").value;
 
-    // ── Validation ──
-    let valid = true;
-
-    if (!age || Number(age) <= 0) valid = false;
-    if (!incomeRaw)               valid = false;
-
-    if (!valid) {
-        formError.style.display = "block";
-        return;
-    }
-
-    formError.style.display = "none";
     resultsDiv.innerHTML = "<p>Searching...</p>";
 
     // ── Parse income range ──
@@ -34,30 +28,49 @@ searchBtn.addEventListener("click", async () => {
     const incomeMin   = Number(incomeParts[0]);
     const incomeMax   = incomeParts[1] === "null" ? null : Number(incomeParts[1]);
 
-    // ── Parse disability ──
-    const disabilityTags = hasDisValue === "yes" ? ["yes"] : [];
+    // ── Parse disability tags ──
+    const disabilityTags = disValue && disValue !== "none" && disValue !== "prefer_not_to_say"
+        ? [disValue]
+        : [];
 
     // ── Build and send payload ──
     const payload = {
         age:             Number(age),
-        // county:          county,
         income_min:      incomeMin,
         income_max:      incomeMax,
         disability_tags: disabilityTags,
         is_veteran:      veteranValue,
     };
 
-    const response = await fetch(
-        "https://mbaghdadi6g.app.n8n.cloud/webhook/benefits-search",
-        {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-        }
-    );
+    try {
+        const response = await fetch(
+            "https://mbaghdadi6g.app.n8n.cloud/webhook/benefits-search",
+            {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }
+        );
 
-    const data = await response.json();
-    renderResults(data.programs);
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.error) {
+            resultsDiv.innerHTML = `<p class="error-msg">${data.message}</p>`;
+            return;
+        }
+
+        renderResults(data.programs);
+
+    } catch (err) {
+        resultsDiv.innerHTML = `
+            <p class="error-msg">
+                Something went wrong while searching. Please check your connection and try again.
+            </p>`;
+    }
 });
 
 
