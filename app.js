@@ -133,7 +133,7 @@ function createCard(program) {
         ${
             program.match_reasons && program.match_reasons.length
             ? `<div class="match-reasons">
-                <strong>${isReferralOnly ? 'Why this is shown:' : 'Why this matches you:'}</strong>
+                <strong>${isReferralOnly ? 'Why this is shown:' : 'Why this was selected for you:'}</strong>
                 <ul>
                     ${program.match_reasons.map(r => `<li>${r}</li>`).join('')}
                 </ul>

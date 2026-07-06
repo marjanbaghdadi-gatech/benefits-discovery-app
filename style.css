@@ -2,12 +2,26 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+}
+
+:root {
+    --ink: #16304d;
+    --ink-soft: #2d4a68;
+    --accent: #b8863a;
+    --accent-ink: #2a1d05;
+    --bg: #f3eedd;
+    --panel: #fbf8ef;
+    --success: #3f6b4a;
+    --font-display: Cambria, Georgia, "Times New Roman", serif;
+    --font-body: "Segoe UI", Tahoma, Arial, sans-serif;
 }
 
 body {
-    background: #f4f6f8;
-    color: #333;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 20px;
+    line-height: 1.5;
 }
 
 .container {
@@ -19,232 +33,262 @@ body {
 header {
     text-align: center;
     margin-bottom: 30px;
+    border-bottom: 4px solid var(--ink);
+    padding-bottom: 22px;
 }
 
 header h1 {
     margin-bottom: 10px;
-    font-size: 4rem;
-    background: linear-gradient(90deg, #0d1b4b, #5dade2, #0d1b4b);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    font-size: 2.9rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+}
+
+header p {
+    font-size: 1.15rem;
 }
 
 .form-card {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    background: var(--panel);
+    padding: 28px;
+    border: 3px solid var(--ink);
+    border-radius: 8px;
     margin-bottom: 30px;
 }
 
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     font-weight: bold;
+    font-size: 1.1rem;
+    font-family: var(--font-body);
 }
 
 input,
 select {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    padding: 14px 16px;
+    border: 2.5px solid var(--ink);
+    border-radius: 6px;
+    font-size: 1.15rem;
+    font-family: var(--font-body);
+    background: var(--panel);
+    color: var(--ink);
 }
 
 button {
     width: 100%;
-    padding: 14px;
-    background: linear-gradient(90deg, #0d1b4b, #5dade2, #0d1b4b);
-    color: white;
+    padding: 18px 20px;
+    background: var(--ink);
+    color: var(--panel);
     border: none;
-    border-radius: 8px;
-    font-size: 20px;
+    border-radius: 6px;
+    font-size: 1.3rem;
     font-weight: bold;
+    font-family: var(--font-body);
+    letter-spacing: 0.02em;
     cursor: pointer;
 }
 
 button:hover {
-    background: linear-gradient(90deg, #0a1538, #2e86c1, #0a1538);
+    background: var(--ink-soft);
 }
 
 .required {
-    color: #c0392b;
+    color: #a3342a;
 }
 
 .field-note {
-    font-size: 0.85em;
-    color: #666;
-    margin-bottom: 6px;
+    font-size: 0.9em;
+    color: var(--ink-soft);
+    margin-top: 8px;
+    margin-bottom: 16px;
 }
 
 .form-error {
-    color: #c0392b;
+    color: #a3342a;
     font-weight: bold;
     margin-bottom: 12px;
 }
 
 p.error {
-    color: #c0392b;
+    color: #a3342a;
     font-weight: bold;
     margin-top: 10px;
 }
 
+#results h2 {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+}
+
 .result-card {
-    background: white;
-    border-left: 6px solid #0d1b4b;
-    padding: 20px;
-    margin-bottom: 15px;
-    border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-    line-height: 1.7;
+    background: var(--panel);
+    border: 3px solid var(--ink);
+    border-left: 8px solid var(--accent);
+    padding: 22px;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    line-height: 1.6;
 }
 
 .result-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
     margin-bottom: 10px;
 }
 
-#results h2 {
-    margin-bottom: 6px;
-}
-
-
-
 /* ── Referral-only cards ── */
 .referral-card {
-    background: #f5f5f5;
-    border: 1.5px dashed #bbb;
-    opacity: 0.88;
+    background: var(--panel);
+    border: 3px dashed var(--ink-soft);
+    border-left: 8px dashed var(--ink-soft);
 }
 
 .referral-card h3 {
-    color: #666;
+    color: var(--ink-soft);
 }
 
 .referral-card .badge {
-    background: #ddd;
-    color: #777;
+    background: #fff;
+    color: var(--ink-soft);
+    border: 2px solid var(--ink-soft);
 }
 
 .referral-banner {
     display: inline-block;
-    background: #e0e0e0;
-    color: #555;
-    font-size: 0.78em;
-    font-weight: 600;
-    padding: 4px 10px;
+    background: #fff;
+    color: var(--ink-soft);
+    border: 2px solid var(--ink-soft);
+    font-size: 0.85em;
+    font-weight: 700;
+    padding: 5px 12px;
     border-radius: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
 }
 
 .referral-link {
-    background: #999 !important;
+    background: var(--ink-soft) !important;
 }
 
 .referral-link:hover {
-    background: #777 !important;
+    background: var(--ink) !important;
 }
 
 /* ── Referral count note under main header ── */
 .referral-note {
-    font-size: 0.88em;
-    color: #888;
+    font-size: 0.92em;
+    color: var(--ink-soft);
     margin-top: 8px;
     margin-bottom: 16px;
 }
 
 .match-reasons {
-    background: #f0f7ff;
-    border-left: 3px solid #2563eb;
-    padding: 8px 12px;
-    margin: 10px 0;
-    border-radius: 4px;
-    font-size: 0.9em;
+    background: #ece1c4;
+    border: 2px solid var(--accent);
+    padding: 10px 14px;
+    margin: 12px 0;
+    border-radius: 6px;
+    font-size: 0.95em;
 }
 
 .match-reasons ul {
-    margin: 4px 0 0 0;
-    padding-left: 18px;
+    margin: 6px 0 0 0;
+    padding-left: 20px;
 }
 
 .match-reasons li {
-    margin: 2px 0;
-    color: #1e40af;
+    margin: 3px 0;
+    color: var(--accent-ink);
 }
 
 .match-warnings {
-    background: #fffbeb;
-    border-left: 3px solid #f59e0b;
-    padding: 8px 12px;
-    margin: 10px 0;
-    border-radius: 4px;
-    font-size: 0.9em;
+    background: #fdf1e0;
+    border: 2px solid #a3342a;
+    padding: 10px 14px;
+    margin: 12px 0;
+    border-radius: 6px;
+    font-size: 0.95em;
 }
 
 .match-warnings ul {
-    margin: 4px 0 0 0;
-    padding-left: 18px;
+    margin: 6px 0 0 0;
+    padding-left: 20px;
 }
 
 .match-warnings li {
-    margin: 2px 0;
-    color: #92400e;
+    margin: 3px 0;
+    color: #7a2620;
 }
 
 .badge {
     display: inline-block;
-    padding: 5px 10px;
-    border-radius: 20px;
-    background: #e8f0fb;
-    color: #0d1b4b;
-    margin-bottom: 10px;
-    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: var(--ink);
+    color: var(--panel);
+    margin-bottom: 12px;
+    font-size: 0.85rem;
     font-weight: bold;
 }
 
 #loadMoreBtn {
     display: block;
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     margin-top: 10px;
-    background: white;
-    color: #0d1b4b;
-    border: 2px solid #0d1b4b;
-    border-radius: 8px;
-    font-size: 16px;
+    background: var(--panel);
+    color: var(--ink);
+    border: 3px solid var(--ink);
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    font-family: var(--font-body);
     cursor: pointer;
 }
 
 #loadMoreBtn:hover {
-    background: #e8f0fb;
+    background: #ece1c4;
 }
 
 .apply-link {
     display: inline-block;
-    margin-top: 10px;
-    color: #0F52BA;
+    margin-top: 12px;
+    padding: 10px 18px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
     text-decoration: none;
 }
 
 .apply-link:hover {
-    text-decoration: underline;
+    background: #a5761f;
 }
 
 footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
-    font-size: 13px;
-    color: #888;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
 }
 
 @media (max-width: 600px) {
+
+    body {
+        font-size: 18px;
+    }
 
     .container {
         margin: 20px auto;
@@ -252,11 +296,11 @@ footer {
     }
 
     header h1 {
-        font-size: 2.2rem;
+        font-size: 2.1rem;
     }
 
     .form-card {
-        padding: 16px;
+        padding: 18px;
     }
 
     input,
@@ -265,11 +309,11 @@ footer {
     }
 
     button {
-        font-size: 17px;
-        padding: 14px;
+        font-size: 1.15rem;
+        padding: 16px;
     }
 
     .result-card {
-        padding: 14px;
+        padding: 16px;
     }
 }
