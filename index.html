@@ -19,8 +19,23 @@
         <div class="form-card">
 
             <div class="form-group">
-                <label for="age">Age</label>
-                <input type="number" id="age" min="1" placeholder="Enter your age">
+                <label for="age">Age Group</label>
+                <select id="age">
+                    <option value="">Select age group</option>
+                    <option value="0|17">Under 18</option>
+                    <option value="18|21">18–21</option>
+                    <option value="22|54">22–54</option>
+                    <option value="55|59">55–59</option>
+                    <option value="60|64">60–64</option>
+                    <option value="65|74">65–74</option>
+                    <option value="75|84">75–84</option>
+                    <option value="85|null">85+</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="zip">Zip Code</label>
+                <input type="text" id="zip" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" placeholder="Enter your 5-digit zip code">
             </div>
 
             <div class="form-group">

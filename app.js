@@ -15,12 +15,19 @@ disabilitySelect.addEventListener("blur", () => {
 // ── Search ───────────────────────────────────────────────────────────────────
 searchBtn.addEventListener("click", async () => {
 
-    const age          = document.getElementById("age").value.trim();
+    const ageRaw       = document.getElementById("age").value;
+    const zip          = document.getElementById("zip").value.trim();
     const incomeRaw    = document.getElementById("income").value;
     const veteranValue  = document.getElementById("veteran").value;
     const disValue      = document.getElementById("disability").value;
 
     resultsDiv.innerHTML = "<p>Searching...</p>";
+
+    // ── Parse age range ──
+    // ageRaw is "floor|ceiling" e.g. "18|21" or "85|null"
+    const ageParts = ageRaw.split("|");
+    const ageMin   = Number(ageParts[0]);
+    const ageMax   = ageParts[1] === "null" ? null : Number(ageParts[1]);
 
     // ── Parse income range ──
     // incomeRaw is "floor|ceiling" e.g. "1000|2000" or "5000|null"
@@ -35,7 +42,9 @@ searchBtn.addEventListener("click", async () => {
 
     // ── Build and send payload ──
     const payload = {
-        age:             Number(age),
+        min_age:         ageMin,
+        max_age:         ageMax,
+        zip_code:        zip,
         income_min:      incomeMin,
         income_max:      incomeMax,
         disability_tags: disabilityTags,
