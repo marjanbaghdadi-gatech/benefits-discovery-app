@@ -51,40 +51,55 @@
             </div>
 
             <div class="form-group">
-                <label for="disability">Disability</label>
-                <select id="disability">
+                <label for="householdSize">Household Size</label>
+                <input type="number" id="householdSize" min="1" step="1" placeholder="Number of people in household">
+            </div>
+
+            <div class="form-group">
+                <label for="disabilityStatus">Disability Status</label>
+                <select id="disabilityStatus">
                     <option value="">Select an option</option>
-                    <option value="none">No disability</option>
-                    <option value="prefer_not_to_say">Prefer not to say</option>
-                    <optgroup label="Physical &amp; Mobility">
-                        <option value="mobility">Mobility / Movement difficulty</option>
-                        <option value="chronic_pain">Chronic pain</option>
-                        <option value="fatigue">Fatigue / Low stamina</option>
-                    </optgroup>
-                    <optgroup label="Sensory">
-                        <option value="vision">Vision / Low vision / Blindness</option>
-                        <option value="hearing">Hearing / Deafness</option>
-                        <option value="speech">Speech / Communication</option>
-                    </optgroup>
-                    <optgroup label="Cognitive &amp; Mental Health">
-                        <option value="cognitive">Memory / Cognitive impairment</option>
-                        <option value="mental_health">Mental health condition</option>
-                        <option value="learning">Learning disability</option>
-                    </optgroup>
-                    <optgroup label="Developmental">
-                        <option value="autism">Autism spectrum</option>
-                        <option value="intellectual">Intellectual disability</option>
-                        <option value="developmental">Other developmental disability</option>
-                    </optgroup>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                    <option value="unsure">Unsure</option>
+                    <option value="prefer_not_to_answer">Prefer not to answer</option>
                 </select>
+            </div>
+
+            <div class="form-group">
+                <label for="disabilityTypeToggle">Disability Type</label>
+                <div class="multiselect" id="disabilityType">
+                    <button type="button" class="multiselect-toggle" id="disabilityTypeToggle">
+                        Select disability type(s)
+                    </button>
+                    <div class="multiselect-panel" id="disabilityTypePanel" hidden>
+                        <label class="checkbox-option"><input type="checkbox" value="physical"> Physical disability</label>
+                        <label class="checkbox-option"><input type="checkbox" value="mobility"> Mobility impairment</label>
+                        <label class="checkbox-option"><input type="checkbox" value="vision"> Blind / Low Vision</label>
+                        <label class="checkbox-option"><input type="checkbox" value="hearing"> Deaf / Hard of Hearing</label>
+                        <label class="checkbox-option"><input type="checkbox" value="intellectual"> Intellectual Disability</label>
+                        <label class="checkbox-option"><input type="checkbox" value="developmental"> Developmental Disability</label>
+                        <label class="checkbox-option"><input type="checkbox" value="autism"> Autism</label>
+                        <label class="checkbox-option"><input type="checkbox" value="mental_health"> Mental Health Condition</label>
+                        <label class="checkbox-option"><input type="checkbox" value="cognitive"> Cognitive Impairment / Dementia</label>
+                        <label class="checkbox-option"><input type="checkbox" value="chronic_illness"> Chronic Illness</label>
+                        <label class="checkbox-option"><input type="checkbox" value="tbi"> Traumatic Brain Injury</label>
+                        <label class="checkbox-option"><input type="checkbox" value="multiple"> Multiple Disabilities</label>
+                        <label class="checkbox-option"><input type="checkbox" value="other"> Other</label>
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="veteran">Veteran Status</label>
                 <select id="veteran">
                     <option value="">Select an option</option>
-                    <option value="false">No</option>
-                    <option value="true">Yes</option>
+                    <option value="veteran">Veteran</option>
+                    <option value="active_duty">Active Duty</option>
+                    <option value="national_guard_reserve">National Guard / Reserve</option>
+                    <option value="military_spouse">Military Spouse</option>
+                    <option value="surviving_spouse">Surviving Spouse</option>
+                    <option value="none">None</option>
                 </select>
 
             </div>

@@ -2,13 +2,31 @@ const searchBtn  = document.getElementById("searchBtn");
 const resultsDiv = document.getElementById("results");
 const formCard   = document.querySelector(".form-card");
 
-// Expand bottom padding when disability dropdown opens so it has room to open downward
-const disabilitySelect = document.getElementById("disability");
-disabilitySelect.addEventListener("focus", () => {
-    formCard.style.paddingBottom = "320px";
+// ── Disability Type multi-select dropdown ──────────────────────────────────
+const disabilityToggle     = document.getElementById("disabilityTypeToggle");
+const disabilityPanel      = document.getElementById("disabilityTypePanel");
+const disabilityCheckboxes = Array.from(disabilityPanel.querySelectorAll("input[type='checkbox']"));
+
+function updateDisabilityToggleLabel() {
+    const checked = disabilityCheckboxes.filter(cb => cb.checked);
+    disabilityToggle.textContent = checked.length
+        ? checked.map(cb => cb.parentElement.textContent.trim()).join(", ")
+        : "Select disability type(s)";
+}
+
+disabilityToggle.addEventListener("click", (e) => {
+    e.stopPropagation();
+    disabilityPanel.hidden = !disabilityPanel.hidden;
 });
-disabilitySelect.addEventListener("blur", () => {
-    formCard.style.paddingBottom = "";
+
+disabilityCheckboxes.forEach(cb => {
+    cb.addEventListener("change", updateDisabilityToggleLabel);
+});
+
+document.addEventListener("click", (e) => {
+    if (!disabilityPanel.hidden && !e.target.closest("#disabilityType")) {
+        disabilityPanel.hidden = true;
+    }
 });
 
 
@@ -17,9 +35,11 @@ searchBtn.addEventListener("click", async () => {
 
     const ageRaw       = document.getElementById("age").value;
     const zip          = document.getElementById("zip").value.trim();
+    const householdSize = document.getElementById("householdSize").value.trim();
     const incomeRaw    = document.getElementById("income").value;
     const veteranValue  = document.getElementById("veteran").value;
-    const disValue      = document.getElementById("disability").value;
+    const disStatusValue = document.getElementById("disabilityStatus").value;
+    const disabilityTags = disabilityCheckboxes.filter(cb => cb.checked).map(cb => cb.value);
 
     resultsDiv.innerHTML = "<p>Searching...</p>";
 
@@ -35,20 +55,17 @@ searchBtn.addEventListener("click", async () => {
     const incomeMin   = Number(incomeParts[0]);
     const incomeMax   = incomeParts[1] === "null" ? null : Number(incomeParts[1]);
 
-    // ── Parse disability tags ──
-    const disabilityTags = (disValue && disValue !== "none" && disValue !== "prefer_not_to_say")
-        ? [disValue]
-        : [];
-
     // ── Build and send payload ──
     const payload = {
         min_age:         ageMin,
         max_age:         ageMax,
         zip_code:        zip,
+        household_size:  householdSize ? Number(householdSize) : null,
         income_min:      incomeMin,
         income_max:      incomeMax,
+        disability_status: disStatusValue,
         disability_tags: disabilityTags,
-        is_veteran:      veteranValue,
+        veteran_status:  veteranValue,
     };
 
     try {
