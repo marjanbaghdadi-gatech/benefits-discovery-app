@@ -51,11 +51,6 @@
             </div>
 
             <div class="form-group">
-                <label for="householdSize">Household Size</label>
-                <input type="number" id="householdSize" min="1" step="1" placeholder="Number of people in household">
-            </div>
-
-            <div class="form-group">
                 <label for="disabilityStatus">Disability Status</label>
                 <select id="disabilityStatus">
                     <option value="">Select an option</option>
@@ -102,6 +97,27 @@
                     <option value="none">None</option>
                 </select>
 
+            </div>
+
+            <div class="form-group">
+                <label for="needsToggle">What do you need help with the most?</label>
+                <div class="multiselect" id="needs">
+                    <button type="button" class="multiselect-toggle" id="needsToggle">
+                        Select need(s)
+                    </button>
+                    <div class="multiselect-panel" id="needsPanel" hidden>
+                        <label class="checkbox-option"><input type="checkbox" value="food"> Food &amp; Nutrition</label>
+                        <label class="checkbox-option"><input type="checkbox" value="housing"> Housing &amp; Utilities</label>
+                        <label class="checkbox-option"><input type="checkbox" value="health"> Health Care</label>
+                        <label class="checkbox-option"><input type="checkbox" value="disability"> Disability &amp; In-Home Support</label>
+                        <label class="checkbox-option"><input type="checkbox" value="transportation"> Transportation</label>
+                        <label class="checkbox-option"><input type="checkbox" value="financial"> Financial Assistance</label>
+                        <label class="checkbox-option"><input type="checkbox" value="caregiver"> Caregiver Support</label>
+                        <label class="checkbox-option"><input type="checkbox" value="legal"> Legal &amp; Benefits Help</label>
+                        <label class="checkbox-option"><input type="checkbox" value="employment"> Employment Support</label>
+                        <label class="checkbox-option"><input type="checkbox" value="community"> Community &amp; Social Programs</label>
+                    </div>
+                </div>
             </div>
 
             <button id="searchBtn">Find Benefits</button>

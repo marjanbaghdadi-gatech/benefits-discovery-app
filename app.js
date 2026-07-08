@@ -2,32 +2,41 @@ const searchBtn  = document.getElementById("searchBtn");
 const resultsDiv = document.getElementById("results");
 const formCard   = document.querySelector(".form-card");
 
-// ── Disability Type multi-select dropdown ──────────────────────────────────
-const disabilityToggle     = document.getElementById("disabilityTypeToggle");
-const disabilityPanel      = document.getElementById("disabilityTypePanel");
-const disabilityCheckboxes = Array.from(disabilityPanel.querySelectorAll("input[type='checkbox']"));
+// ── Checkbox multi-select dropdowns ─────────────────────────────────────────
+function setupMultiselect(containerId, toggleId, panelId, placeholder) {
+    const toggle      = document.getElementById(toggleId);
+    const panel       = document.getElementById(panelId);
+    const checkboxes  = Array.from(panel.querySelectorAll("input[type='checkbox']"));
 
-function updateDisabilityToggleLabel() {
-    const checked = disabilityCheckboxes.filter(cb => cb.checked);
-    disabilityToggle.textContent = checked.length
-        ? checked.map(cb => cb.parentElement.textContent.trim()).join(", ")
-        : "Select disability type(s)";
+    function updateLabel() {
+        const checked = checkboxes.filter(cb => cb.checked);
+        toggle.textContent = checked.length
+            ? checked.map(cb => cb.parentElement.textContent.trim()).join(", ")
+            : placeholder;
+    }
+
+    toggle.addEventListener("click", (e) => {
+        e.stopPropagation();
+        panel.hidden = !panel.hidden;
+    });
+
+    checkboxes.forEach(cb => cb.addEventListener("change", updateLabel));
+
+    document.addEventListener("click", (e) => {
+        if (!panel.hidden && !e.target.closest(`#${containerId}`)) {
+            panel.hidden = true;
+        }
+    });
+
+    return checkboxes;
 }
 
-disabilityToggle.addEventListener("click", (e) => {
-    e.stopPropagation();
-    disabilityPanel.hidden = !disabilityPanel.hidden;
-});
-
-disabilityCheckboxes.forEach(cb => {
-    cb.addEventListener("change", updateDisabilityToggleLabel);
-});
-
-document.addEventListener("click", (e) => {
-    if (!disabilityPanel.hidden && !e.target.closest("#disabilityType")) {
-        disabilityPanel.hidden = true;
-    }
-});
+const disabilityCheckboxes = setupMultiselect(
+    "disabilityType", "disabilityTypeToggle", "disabilityTypePanel", "Select disability type(s)"
+);
+const needsCheckboxes = setupMultiselect(
+    "needs", "needsToggle", "needsPanel", "Select need(s)"
+);
 
 
 // ── Search ───────────────────────────────────────────────────────────────────
@@ -35,11 +44,11 @@ searchBtn.addEventListener("click", async () => {
 
     const ageRaw       = document.getElementById("age").value;
     const zip          = document.getElementById("zip").value.trim();
-    const householdSize = document.getElementById("householdSize").value.trim();
     const incomeRaw    = document.getElementById("income").value;
     const veteranValue  = document.getElementById("veteran").value;
     const disStatusValue = document.getElementById("disabilityStatus").value;
     const disabilityTags = disabilityCheckboxes.filter(cb => cb.checked).map(cb => cb.value);
+    const needsTags       = needsCheckboxes.filter(cb => cb.checked).map(cb => cb.value);
 
     resultsDiv.innerHTML = "<p>Searching...</p>";
 
@@ -60,11 +69,11 @@ searchBtn.addEventListener("click", async () => {
         min_age:         ageMin,
         max_age:         ageMax,
         zip_code:        zip,
-        household_size:  householdSize ? Number(householdSize) : null,
         income_min:      incomeMin,
         income_max:      incomeMax,
         disability_status: disStatusValue,
         disability_tags: disabilityTags,
+        need_tags:       needsTags,
         veteran_status:  veteranValue,
     };
 
