@@ -19,18 +19,8 @@
         <div class="form-card">
 
             <div class="form-group">
-                <label for="age">Age Group</label>
-                <select id="age">
-                    <option value="">Select age group</option>
-                    <option value="0|17">Under 18</option>
-                    <option value="18|21">18–21</option>
-                    <option value="22|54">22–54</option>
-                    <option value="55|59">55–59</option>
-                    <option value="60|64">60–64</option>
-                    <option value="65|74">65–74</option>
-                    <option value="75|84">75–84</option>
-                    <option value="85|null">85+</option>
-                </select>
+                <label for="age">Age</label>
+                <input type="number" id="age" inputmode="numeric" min="0" max="120" placeholder="Enter your age">
             </div>
 
             <div class="form-group">
@@ -39,15 +29,13 @@
             </div>
 
             <div class="form-group">
-                <label for="income">Income</label>
-                <select id="income">
-                    <option value="">Select income range</option>
-                    <option value="0|1000">Under $1,000 / month</option>
-                    <option value="1000|2000">$1,000 – $2,000 / month</option>
-                    <option value="2000|3500">$2,000 – $3,500 / month</option>
-                    <option value="3500|5000">$3,500 – $5,000 / month</option>
-                    <option value="5000|null">Over $5,000 / month</option>
-                </select>
+                <label for="income">Annual Household Gross Income (Before Taxes)</label>
+                <input type="number" id="income" inputmode="numeric" min="0" placeholder="Enter your annual household gross income">
+            </div>
+
+            <div class="form-group">
+                <label for="householdSize">Household Size</label>
+                <input type="number" id="householdSize" inputmode="numeric" min="1" placeholder="Enter number of people in your household">
             </div>
 
             <div class="form-group">
@@ -61,7 +49,7 @@
                 </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="disabilityTypeGroup" hidden>
                 <label for="disabilityTypeToggle">Disability Type</label>
                 <div class="multiselect" id="disabilityType">
                     <button type="button" class="multiselect-toggle" id="disabilityTypeToggle">
@@ -90,32 +78,33 @@
                 <select id="veteran">
                     <option value="">Select an option</option>
                     <option value="veteran">Veteran</option>
-                    <option value="active_duty">Active Duty</option>
-                    <option value="national_guard_reserve">National Guard / Reserve</option>
-                    <option value="military_spouse">Military Spouse</option>
-                    <option value="surviving_spouse">Surviving Spouse</option>
+                    <option value="active_duty_national_guard_reserve">Active Duty / National Guard / Reserve</option>
+                    <option value="military_spouse_widow_dependent">Military Spouse / Widow(er) / Dependent</option>
+                    <option value="prefer_not_to_answer">Prefer not to answer</option>
                     <option value="none">None</option>
                 </select>
 
             </div>
 
             <div class="form-group">
-                <label for="needsToggle">What do you need help with the most?</label>
+                <label for="needsToggle">What Do You Need Help With the Most?</label>
                 <div class="multiselect" id="needs">
                     <button type="button" class="multiselect-toggle" id="needsToggle">
                         Select need(s)
                     </button>
                     <div class="multiselect-panel" id="needsPanel" hidden>
-                        <label class="checkbox-option"><input type="checkbox" value="food"> Food &amp; Nutrition</label>
-                        <label class="checkbox-option"><input type="checkbox" value="housing"> Housing &amp; Utilities</label>
-                        <label class="checkbox-option"><input type="checkbox" value="health"> Health Care</label>
-                        <label class="checkbox-option"><input type="checkbox" value="disability"> Disability &amp; In-Home Support</label>
+                        <label class="checkbox-option"><input type="checkbox" value="health_medical_care"> Health &amp; Medical Care</label>
+                        <label class="checkbox-option"><input type="checkbox" value="financial_assistance"> Financial Assistance</label>
+                        <label class="checkbox-option"><input type="checkbox" value="food_nutrition"> Food &amp; Nutrition</label>
+                        <label class="checkbox-option"><input type="checkbox" value="housing_home_support"> Housing &amp; Home Support</label>
                         <label class="checkbox-option"><input type="checkbox" value="transportation"> Transportation</label>
-                        <label class="checkbox-option"><input type="checkbox" value="financial"> Financial Assistance</label>
-                        <label class="checkbox-option"><input type="checkbox" value="caregiver"> Caregiver Support</label>
-                        <label class="checkbox-option"><input type="checkbox" value="legal"> Legal &amp; Benefits Help</label>
-                        <label class="checkbox-option"><input type="checkbox" value="employment"> Employment Support</label>
-                        <label class="checkbox-option"><input type="checkbox" value="community"> Community &amp; Social Programs</label>
+                        <label class="checkbox-option"><input type="checkbox" value="disability_independent_living"> Disability &amp; Independent Living</label>
+                        <label class="checkbox-option"><input type="checkbox" value="aging_services_caregiving"> Aging Services &amp; Caregiving</label>
+                        <label class="checkbox-option"><input type="checkbox" value="employment_education"> Employment &amp; Education</label>
+                        <label class="checkbox-option"><input type="checkbox" value="legal_advocacy"> Legal &amp; Advocacy</label>
+                        <label class="checkbox-option"><input type="checkbox" value="mental_health_wellbeing"> Mental Health &amp; Well-being</label>
+                        <label class="checkbox-option"><input type="checkbox" value="veteran_military_support"> Veteran &amp; Military Support</label>
+                        <label class="checkbox-option"><input type="checkbox" value="benefits_navigation_case_management"> Benefits Navigation &amp; Case Management</label>
                     </div>
                 </div>
             </div>

@@ -38,13 +38,28 @@ const needsCheckboxes = setupMultiselect(
     "needs", "needsToggle", "needsPanel", "Select need(s)"
 );
 
+// ── Show disability type only when disability status is "Yes" ─────────────
+const disabilityStatusSelect = document.getElementById("disabilityStatus");
+const disabilityTypeGroup    = document.getElementById("disabilityTypeGroup");
+
+disabilityStatusSelect.addEventListener("change", () => {
+    const showDisabilityType = disabilityStatusSelect.value === "yes";
+    disabilityTypeGroup.hidden = !showDisabilityType;
+    if (!showDisabilityType) {
+        disabilityCheckboxes.forEach(cb => { cb.checked = false; });
+        document.getElementById("disabilityTypeToggle").textContent = "Select disability type(s)";
+        document.getElementById("disabilityTypePanel").hidden = true;
+    }
+});
+
 
 // ── Search ───────────────────────────────────────────────────────────────────
 searchBtn.addEventListener("click", async () => {
 
-    const ageRaw       = document.getElementById("age").value;
+    const age          = document.getElementById("age").value;
     const zip          = document.getElementById("zip").value.trim();
-    const incomeRaw    = document.getElementById("income").value;
+    const incomeRaw    = document.getElementById("income").value.trim();
+    const householdSizeRaw = document.getElementById("householdSize").value.trim();
     const veteranValue  = document.getElementById("veteran").value;
     const disStatusValue = document.getElementById("disabilityStatus").value;
     const disabilityTags = disabilityCheckboxes.filter(cb => cb.checked).map(cb => cb.value);
@@ -52,25 +67,17 @@ searchBtn.addEventListener("click", async () => {
 
     resultsDiv.innerHTML = "<p>Searching...</p>";
 
-    // ── Parse age range ──
-    // ageRaw is "floor|ceiling" e.g. "18|21" or "85|null"
-    const ageParts = ageRaw.split("|");
-    const ageMin   = Number(ageParts[0]);
-    const ageMax   = ageParts[1] === "null" ? null : Number(ageParts[1]);
-
-    // ── Parse income range ──
-    // incomeRaw is "floor|ceiling" e.g. "1000|2000" or "5000|null"
-    const incomeParts = incomeRaw.split("|");
-    const incomeMin   = Number(incomeParts[0]);
-    const incomeMax   = incomeParts[1] === "null" ? null : Number(incomeParts[1]);
+    // ── Parse income ──
+    const annualIncome = incomeRaw !== "" ? Number(incomeRaw) : null;
+    const householdSize = householdSizeRaw !== "" ? Number(householdSizeRaw) : null;
 
     // ── Build and send payload ──
+    // veteran_status is the raw category; the backend derives eligibility from it.
     const payload = {
-        min_age:         ageMin,
-        max_age:         ageMax,
+        age:             age ? Number(age) : null,
         zip_code:        zip,
-        income_min:      incomeMin,
-        income_max:      incomeMax,
+        annual_income:   annualIncome,
+        household_size:  householdSize,
         disability_status: disStatusValue,
         disability_tags: disabilityTags,
         need_tags:       needsTags,
